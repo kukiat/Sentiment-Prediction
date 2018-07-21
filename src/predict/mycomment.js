@@ -1,29 +1,33 @@
 var fs = require('fs')
 //testtttttt data**********************
+var string = "x";
 
-var testtext,testrate;
-var comment;
-fs.readFile('testtext.txt','utf8',function(err,data){
+var myComment = string.toLowerCase().split(' ')
+var testtext
+var comment=[];
+fs.readFile('../data/testtext.txt','utf8',function(err,data){
   if(err)return console.log(err);
   testtext = data.replace(/]-/g,']-').split('-')
   testtext = JSON.parse(testtext)
 });
-fs.readFile('testrate.txt','utf8',function(err,data){
+fs.readFile('../data/testrate.txt','utf8',function(err,data){
   if(err)return console.log(err);
   testrate = data.split(',');
 });
 
 
 var cutalldata;
-fs.readFile('weightWords.txt','utf8',function(err,data){
+fs.readFile('../data/weightWords.txt','utf8',function(err,data){
   if(err)return console.log(err);
   cutalldata = data.split(',');
-  comment = testtext;
+  comment.push(myComment);
+  console.log(comment);
   a()
 });
 var resultrateplus;
+
 function a(){
-  fs.readFile('weightPlus.txt','utf8',function(err,data){
+  fs.readFile('../data/weightPlus.txt','utf8',function(err,data){
     if(err)return console.log(err);
     resultrateplus = data.split(',');
     for(i in resultrateplus){
@@ -32,9 +36,10 @@ function a(){
     b()
   });
 }
+
 var resultrateminus;
 function b(){
-  fs.readFile('weightMinus.txt','utf8',function(err,data){
+  fs.readFile('../data/weightMinus.txt', 'utf8', function(err,data){
     if(err)return console.log(err);
     resultrateminus = data.split(',');
     for(i in resultrateminus){
@@ -45,7 +50,7 @@ function b(){
 }
 var rate;
 function c(){
-  fs.readFile('weightrating.txt','utf8',function(err,data){
+  fs.readFile('../data/weightrating.txt', 'utf8', function(err,data){
     if(err)return console.log(err);
     rate = data.split(',');
     for(i in rate){
@@ -81,12 +86,14 @@ function doit(){
         }
       }
     }
+
     for(m = 0; m < cutalldata.length; m++){
       xx[numm].push(table[m][1])
     }
     numm++
   }
   //test learning******************
+
   var resplus =0
   var resminus =0
   var output = []
@@ -102,43 +109,11 @@ function doit(){
     }
     resplus*= pplus
     resminus*= pminus
-    if(resplus>resminus){
-      output[i][1] = 1
+    if(resplus>resminus) {
+      output[i][1] = 1 
     }else {
       output[i][1] = 0
     }
   }
-  console.log(output)
-  var guess=[];
-  for(i in output){
-    guess.push(output[i][1])
-  }
-  var y = []
-  for(i in guess){
-    if(testrate[i]>3)
-      y.push(1)
-    else y.push(0)
-  }
-  //guess คือค่าของเราที่ทำนาย
-  //y คือค่าจริงๆของdataนั้น
-  var score=0,sum=0
-  for(i in y){
-    if(guess[i] == y[i]){
-      score++;
-      console.log(guess[i]+' : '+y[i]);
-    }
-    else{
-      console.log(guess[i]+' : '+y[i]+' false');
-    }
-    sum++
-
-  }
-  result = score/sum;
-  console.log('\n-------------------------------------------------------------------\n');
-  console.log('Predict result');
-  console.log('Total : '+y.length);
-  console.log('True : '+score+' False : '+(y.length-score));
-  console.log('Error : '+(1-result));
-  console.log('Accuracy : '+(100*result)+' %');
-  console.log('\n-------------------------------------------------------------------');
+  console.log('output', output)
 }

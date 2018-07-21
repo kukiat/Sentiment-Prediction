@@ -1,13 +1,14 @@
 var jsonfile = require('jsonfile')
 
-var file = 'newdataja2.json'
+// var file = 'newdataja2.json'
+var file = '../data/bigdata.json'
 var xx= []
 var x=[]  //input text
 var y=[]  //ratingที่แบ่งแล้ว
 var alldata=[]  //เอาคำทุกคำมาต่อกัน
 jsonfile.readFile(file, function(err, data){
   //*****alldataที่ยังไม่ตัดคำซ้ำ************
-  leng=2000
+  leng=10000
   for(i = 0; i < leng; i++){
     for(j = 0; j < data[i].text.length; j++){
       alldata.push(data[i].text[j])
@@ -73,6 +74,10 @@ jsonfile.readFile(file, function(err, data){
       y[i][0] = 0;
     }
   }
+  var rate =[]
+  for(i in y){
+    rate.push(y[i][0])
+  }
 
   //**********print x and y ************
   // for(i=0; i<leng;i++){
@@ -137,72 +142,38 @@ jsonfile.readFile(file, function(err, data){
     resultrateminus[i][1] = resu2
   }
   //*******print weight of word********
-  // for(i=0;i<cutalldata.length;i++){
-  //   console.log('+ : '+resultrateplus[i])
-  //   console.log('- : '+resultrateminus[i])
-  //   // console.log('p+ = '+pplus)
-  //   // console.log('p- = '+pminus)
-  //   console.log("--------------------------------------------------------------------------------")
-  // }
-  //testtttttt data**********************
-// var comment = ["i","went","to","hell","we","do","not","talk","anymore"]
-
-  var xx= []
-  var numm=0;
-  testbegin = 1990
-  testend = 1991
-  console.log('wd'+data.length)
-  for(i = testbegin; i < testend; i++){
-    xx.push([])
-    var table=[]
-    for(k = 0; k < cutalldata.length; k++){
-      table.push([])
-      table[k][0] = cutalldata[k]
-      table[k][1] = 0
-    }
-    for(j = 0; j < data[i].text.length; j++){
-      for(l = 0; l < cutalldata.length; l++){
-        if(data[i].text[j]==table[l][0]){
-          table[l][1]++
+  var weightPlus = [],weightMinus=[],weightWords=[]
+  for(i=0;i<cutalldata.length;i++){
+    console.log('+ : '+resultrateplus[i])
+    console.log('- : '+resultrateminus[i])
+    console.log("--------------------------------------------------------------------------------")
+    weightPlus.push(resultrateplus[i][1])
+    weightMinus.push(resultrateminus[i][1])
+    weightWords.push(resultrateplus[i][0])
+   }
+   var fs = require('fs');
+    fs.writeFile("../data/weightPlus.txt",weightPlus, function(err) {
+        if(err) {
+            return console.log(err);
         }
-      }
-    }
-    for(m = 0; m < cutalldata.length; m++){
-      xx[numm].push(table[m][1])
-    }
-    numm++
-  }
-  console.log(xx)
-  //test learning******************
-  var resplus =0
-  var resminus =0
-  var output = []
-  for(i = 0; i < xx.length; i++){
-    output.push([''])
-    for(j = 0; j < cutalldata.length; j++){
-      if(xx[i][j] != 0){
-        output[i][0]= output[i][0] + cutalldata[j]
-        output[i][0]= output[i][0] + '-'
-        resplus = xx[i][j]*resultrateplus[j][1]
-        resminus = xx[i][j]*resultrateminus[j][1]
-      }
-    }
-    resplus*= pplus
-    resminus*= pminus
-    if(resplus>resminus){
-      output[i][1] = 1
-    }else {
-      output[i][1] = 0
-    }
-  }
-  for(i = 0; i < 1; i++){
-    console.log('gg '+output[i])
-    console.log('____')
-  }
-  // for(i = 0; i < 2000; i++){
-  //   if(output[i][1] == 0){
-  //     console.log('bad '+output[i])
-  //     console.log('____')
-  //   }
-  // }
+        console.log("The file was saved!");
+    });
+    fs.writeFile("../data/weightMinus.txt",weightMinus, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    });
+    fs.writeFile("../data/weightWords.txt",weightWords, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    });
+    fs.writeFile("../data/weightrating.txt",rate, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    });
 })
