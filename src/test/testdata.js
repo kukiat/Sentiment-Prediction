@@ -181,4 +181,6 @@ const testData = async () => {
   }
 }
 
-testData()
+module.export = {
+  testData: testData() 
+}
