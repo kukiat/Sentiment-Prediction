@@ -1,83 +1,5 @@
-const fs = require('fs')
-const path = require('path')
-
-const readText = () => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(__dirname, '../data/testtext.txt'), 'utf8', (err,data) => {
-      if(err) {
-        reject(err)
-        return
-      }
-      let testtext = data.replace(/]-/g,']-').split('-')
-      resolve(JSON.parse(testtext))
-    })
-  })
-}
-
-const readRate = () => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(__dirname, '../data/testrate.txt'), 'utf8', (err,data) => {
-      if(err) {
-        reject(err)
-        return
-      }
-      testrate = data.split(',');
-      resolve(testrate)
-    })
-  })
-}
-
-const readWord = () => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(__dirname, '../data/weightWords.txt'), 'utf8', (err, data) => {
-      if(err) reject(err)
-      resolve(data.split(','))
-    })
-  })
-}
-
-
-const getRatePlus = async () => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(__dirname, '../data/weightPlus.txt'), 'utf8', (err, data) => {
-      if(err) reject(err)
-      let resultrateplus = data.split(',');
-      for(i in resultrateplus){
-        resultrateplus[i]=parseFloat(resultrateplus[i])
-      }
-      resolve(resultrateplus)
-    })
-  })
-}
-
-const getRateMinus = async () => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(__dirname, '../data/weightMinus.txt'), 'utf8', (err, data) => {
-      if(err) reject(err)
-      let resultrateminus = data.split(',');
-      for(i in resultrateminus){
-        resultrateminus[i] = parseFloat(resultrateminus[i])
-      }
-      resolve(resultrateminus)
-    })
-  })
-}
-
-const getRating = async () => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(__dirname, '../data/weightrating.txt'), 'utf8', function(err,data){
-      if(err) {
-        reject(err)
-      }
-      console.log('fuck')
-      let rate = data.split(',');
-      for(i in rate){
-        rate[i] = parseInt(rate[i])
-      }
-      resolve(rate)
-    })
-  })
-}
+const { readText, readRate, readWord } = require('../utils/file')
+const { getRatePlus, getRateMinus, getRating } = require('../utils/rate')
 
 const evaluate = async (comment, cutalldata, testrate) => {
   const resultrateplus = await getRatePlus()
@@ -181,6 +103,6 @@ const testData = async () => {
   }
 }
 
-module.export = {
-  testData: testData() 
+module.exports = {
+  testData
 }

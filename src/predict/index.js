@@ -1,20 +1,22 @@
-var fs = require('fs')
-//testtttttt data**********************
+const  fs = require('fs')
 var string = "x";
+const { readText, readRate, readWord } = require('../utils/file')
+const { getRatePlus, getRateMinus, getRating } = require('../utils/rate')
 
 var myComment = string.toLowerCase().split(' ')
 var testtext
 var comment=[];
+
 fs.readFile('../data/testtext.txt','utf8',function(err,data){
   if(err)return console.log(err);
   testtext = data.replace(/]-/g,']-').split('-')
   testtext = JSON.parse(testtext)
 });
+
 fs.readFile('../data/testrate.txt','utf8',function(err,data){
   if(err)return console.log(err);
   testrate = data.split(',');
 });
-
 
 var cutalldata;
 fs.readFile('../data/weightWords.txt','utf8',function(err,data){
