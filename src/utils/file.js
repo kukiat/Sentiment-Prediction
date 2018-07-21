@@ -36,8 +36,24 @@ const readWord = () => {
   })
 }
 
+const mergeWord = (myComment) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path.resolve(__dirname, '../data/weightWords.txt'), 'utf8', (err,data) => {
+      if(err)
+        reject(err);
+      let comment = []
+      let cutalldata = data.split(',');
+      comment.push(myComment);
+      resolve({
+        cutalldata, comment
+      })
+    })
+  })
+}
+
 module.exports = {
   readText,
   readRate,
   readWord,
+  mergeWord
 }

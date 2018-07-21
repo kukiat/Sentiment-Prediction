@@ -7,7 +7,7 @@ const getRatePlus = async () => {
       if(err) reject(err)
       let resultrateplus = data.split(',');
       for(i in resultrateplus){
-        resultrateplus[i]=parseFloat(resultrateplus[i])
+        resultrateplus[i] = parseFloat(resultrateplus[i])
       }
       resolve(resultrateplus)
     })
@@ -32,6 +32,7 @@ const getRating = async () => {
     fs.readFile(path.resolve(__dirname, '../data/weightrating.txt'), 'utf8', function(err,data){
       if(err) {
         reject(err)
+        return
       }
       let rate = data.split(',');
       for(i in rate){

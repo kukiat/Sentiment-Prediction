@@ -1,17 +1,20 @@
 {
   "name": "dp",
   "version": "1.0.0",
-  "description": "",
-  "main": "data.js",
+  "description": "sentiment-prediction-api",
+  "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "jsonfile": "^2.4.0",
     "request": "^2.79.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
   },
   "author": "",
   "license": "ISC"
