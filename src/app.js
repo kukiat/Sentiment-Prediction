@@ -14,5 +14,7 @@ app.use((req, res) => {
 })
 
 app.use('/', routers)
-
+app.get('/gogo', (req, res, next) => {
+  res.send('ok')
+})
 module.exports = app
